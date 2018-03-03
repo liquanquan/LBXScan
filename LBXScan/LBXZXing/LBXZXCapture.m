@@ -23,6 +23,7 @@
 #import "ZXHybridBinarizer.h"
 #import "ZXReader.h"
 #import "ZXResult.h"
+#import "ZXResultPoint.h"
 
 @interface LBXZXCapture ()
 
@@ -40,7 +41,8 @@
 @property (nonatomic, strong) AVCaptureVideoDataOutput *output;
 @property (nonatomic, assign) BOOL running;
 @property (nonatomic, strong) AVCaptureSession *session;
-
+@property (nonatomic, assign) int pointCount;
+@property (nonatomic, assign) BOOL hasChangeScale;
 @end
 
 @implementation LBXZXCapture
@@ -52,6 +54,11 @@
     _focusMode = AVCaptureFocusModeContinuousAutoFocus;
     _hardStop = NO;
     _hints = [ZXDecodeHints hints];
+      _pointCount = 0;
+      _hasChangeScale = NO;
+      _hints.tryHarder = YES;
+      _hints.resultPointCallback = self;
+      [_hints addPossibleFormat:kBarcodeFormatQRCode];
     _lastScannedImage = NULL;
     _onScreen = NO;
     _orderInSkip = 0;
@@ -70,7 +77,16 @@
 
   return self;
 }
-
+- (void)foundPossibleResultPoint:(ZXResultPoint *)point {
+    _pointCount ++;
+    if (_pointCount > 50 && !_hasChangeScale) {
+        _hasChangeScale = YES;
+        NSError *error;
+        if ([self.captureDevice lockForConfiguration:&error]) {
+            [self.captureDevice rampToVideoZoomFactor:3 withRate:50];
+        }
+    }
+}
 - (void)dealloc {
   if (_lastScannedImage) {
     CGImageRelease(_lastScannedImage);
@@ -305,6 +321,12 @@
         }
         
         [self.session startRunning];
+        NSError *error;
+        if ([self.captureDevice lockForConfiguration:&error]) {
+            [self.captureDevice rampToVideoZoomFactor:1 withRate:50];
+        }
+        _pointCount = 0;
+        _hasChangeScale = NO;
     }
     self.running = YES;
 }
