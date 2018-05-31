@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
-
+#import "LBXZXCapture.h"
 #import "ZXBarcodeFormat.h"
 
 #define LBXScan_Define_ZXing
@@ -18,7 +18,7 @@
  */
 @interface ZXingWrapper : NSObject
 
-
+@property (nonatomic, strong) LBXZXCapture *capture;
 
 /**
  初始化ZXing

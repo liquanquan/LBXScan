@@ -9,13 +9,13 @@
 #import "ZXingWrapper.h"
 #import "ZXingObjC.h"
 #import "LBXZXCaptureDelegate.h"
-#import "LBXZXCapture.h"
+
 
 
 typedef void(^blockScan)(ZXBarcodeFormat barcodeFormat,NSString *str,UIImage *scanImg);
 
 @interface ZXingWrapper() <LBXZXCaptureDelegate>
-@property (nonatomic, strong) LBXZXCapture *capture;
+
 
 @property (nonatomic,copy)blockScan block;
 

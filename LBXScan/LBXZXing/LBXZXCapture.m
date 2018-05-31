@@ -79,7 +79,7 @@
 }
 - (void)foundPossibleResultPoint:(ZXResultPoint *)point {
     _pointCount ++;
-    if (_pointCount > 50 && !_hasChangeScale) {
+    if (_pointCount > 20 && !_hasChangeScale) {
         _hasChangeScale = YES;
         NSError *error;
         if ([self.captureDevice lockForConfiguration:&error]) {
@@ -460,7 +460,7 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
               return;
           }
           
-          NSLog(@"sampleBufferNums");
+//          NSLog(@"sampleBufferNums");
           sampleBufferNums = 0;
           
         ZXBinaryBitmap *bitmap = [[ZXBinaryBitmap alloc] initWithBinarizer:binarizer];
