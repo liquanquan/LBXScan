@@ -59,6 +59,14 @@
       _hints.tryHarder = YES;
       _hints.resultPointCallback = self;
       [_hints addPossibleFormat:kBarcodeFormatQRCode];
+      [_hints addPossibleFormat:kBarcodeFormatCodabar];
+      [_hints addPossibleFormat:kBarcodeFormatCode39];
+      [_hints addPossibleFormat:kBarcodeFormatCode93];
+      [_hints addPossibleFormat:kBarcodeFormatCode128];
+      [_hints addPossibleFormat:kBarcodeFormatEan8];
+      [_hints addPossibleFormat:kBarcodeFormatEan13];
+      [_hints addPossibleFormat:kBarcodeFormatUPCA];
+      [_hints addPossibleFormat:kBarcodeFormatUPCE];
     _lastScannedImage = NULL;
     _onScreen = NO;
     _orderInSkip = 0;
